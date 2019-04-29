@@ -8,6 +8,7 @@ import (
 	"fmt"
 	"github.com/golang/protobuf/proto"
 	"sync"
+	"os"
 )
 
 var upgrader = websocket.Upgrader{
@@ -15,7 +16,6 @@ var upgrader = websocket.Upgrader{
 		return true	
 	},
 }
-var addr = flag.String("addr", "172.16.0.7:8080", "http service address")
 var broadcast = make(chan []byte)
 var mapLock = &sync.RWMutex{}
 
@@ -24,6 +24,14 @@ var connectedPlayers struct {
 }
 
 func main() {
+
+	port := os.Getenv("PORT")
+
+    if port == "" {
+        log.Fatal("$PORT must be set")
+	}
+	
+	addr := flag.String("addr", ":"+port, "http service address")
 
 	connectedPlayers.Players = make( map[*websocket.Conn]PlayerData)
 
