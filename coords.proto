@@ -1,0 +1,9 @@
+syntax="proto3";
+
+package main;
+
+message PlayerData {
+    string clientID = 1; 
+    float x = 2; 
+    float y = 3;
+}
